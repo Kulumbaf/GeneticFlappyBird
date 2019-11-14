@@ -30,6 +30,7 @@ class Sprites(object):
         }
         
         self.background = self.setBackground()
+        self.message = pygame.image.load('assets/sprites/message.png')
         self.bird = self.setBird()
 
     def setBackground(self):

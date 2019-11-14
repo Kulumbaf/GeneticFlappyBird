@@ -19,6 +19,7 @@ def mainLoop(clock, window, s, bird):
                 run = False
 
         window.blit(s.background, (0, 0))
+        window.blit(s.message, (52, 50))
         bird.drawBird(window, tick)
         pygame.display.update()
 
