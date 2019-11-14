@@ -1,7 +1,6 @@
 import pygame
 
 FLAPPERSECOND = 5
-SWINGPERSECOND = 5
 
 class Bird:
 
@@ -11,7 +10,7 @@ class Bird:
         self.x = 65
         self.y = 235
     
-    def drawBird(self, window, tick):
+    def draw(self, window, tick):
         window.blit(self.sprites[self.flapCount], (self.x, self.y))
 
         if tick != 0 and tick % FLAPPERSECOND == 0 and self.flapCount < 3:
