@@ -1,7 +1,7 @@
 import pygame
 from random import randint
 
-class Sprites(object):
+class Sprites:
 
     def __init__(self):
         self.backgrounds = {

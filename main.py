@@ -8,15 +8,22 @@ WINDOWHEIGHT = 512
 GAMENAME = 'Flappy Bird'
 FPS = 60
 
-def draw(window, s, base, bird, tick):
+def drawMenu(window, s, base, bird, tick):
     window.blit(s.background, (0, 0))
     window.blit(s.message, (52, 50))
     base.draw(window)
-    bird.draw(window, tick)
+    bird.drawInMenu(window, tick)
+    pygame.display.update()
+
+def drawGame(window, s, base, bird, tick):
+    window.blit(s.background, (0, 0))
+    base.draw(window)
+    bird.drawInGame(window, tick)
     pygame.display.update()
 
 def mainLoop(clock, window, s):
     run = True
+    runGame = False
     tick = 0
     base = Base(sprites.base)
     bird = Bird(sprites.bird)
@@ -27,8 +34,13 @@ def mainLoop(clock, window, s):
         for event in pygame.event.get():
             if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
                 run = False
-        
-        draw(window, s, base, bird, tick)
+            if event.type == pygame.KEYDOWN and (event.key == pygame.K_SPACE or event.key == pygame.K_UP):
+                runGame = True
+
+        if runGame:
+            drawGame(window, s, base, bird, tick)
+        else:
+            drawMenu(window, s, base, bird, tick)
 
         if tick < FPS:
             tick += 1
