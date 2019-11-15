@@ -1,6 +1,7 @@
 from sprites import Sprites
 from base import Base
 from bird import Bird
+from pipe import Pipe
 import pygame
 
 WINDOWWIDTH = 288
@@ -15,9 +16,10 @@ def drawMenu(window, s, base, bird, tick):
     bird.drawInMenu(window, tick)
     pygame.display.update()
 
-def drawGame(window, s, base, bird, tick):
+def drawGame(window, s, base, bird, tick, pipe):
     window.blit(s.background, (0, 0))
     base.draw(window)
+    pipe.draw(window)
     bird.drawInGame(window, tick)
     pygame.display.update()
 
@@ -27,6 +29,7 @@ def mainLoop(clock, window, s):
     tick = 0
     base = Base(sprites.base)
     bird = Bird(sprites.bird)
+    pipe = Pipe(sprites.pipe)
 
     while run:
         clock.tick(FPS)
@@ -38,7 +41,7 @@ def mainLoop(clock, window, s):
                 runGame = True
 
         if runGame:
-            drawGame(window, s, base, bird, tick)
+            drawGame(window, s, base, bird, tick, pipe)
         else:
             drawMenu(window, s, base, bird, tick)
 

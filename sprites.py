@@ -28,11 +28,16 @@ class Sprites:
                 pygame.image.load('assets/sprites/bluebird-upflap.png')
             ]
         }
+        self.pipes = {
+            'greenPipe': pygame.image.load('assets/sprites/pipe-green.png'),
+            'redPipe': pygame.image.load('assets/sprites/pipe-red.png')
+        }
         
         self.background = self.setBackground()
         self.base = pygame.image.load('assets/sprites/base.png')
         self.message = pygame.image.load('assets/sprites/message.png')
         self.bird = self.setBird()
+        self.pipe = self.setPipe()
 
     def setBackground(self):
         r = randint(0, 1)
@@ -49,3 +54,10 @@ class Sprites:
             return self.birds['redBird']
         else:
             return self.birds['blueBird']
+
+    def setPipe(self):
+        r = randint(0, 1)
+        if r == 0:
+            return self.pipes['greenPipe']
+        else:
+            return self.pipes['redPipe']
