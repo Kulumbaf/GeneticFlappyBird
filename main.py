@@ -3,6 +3,7 @@ from sprites import Sprites
 from base import Base
 from bird import Bird
 from pipes import Pipes
+from score import Score
 
 import pygame
 
@@ -13,20 +14,22 @@ def drawMenu(window, s, base, bird, tick):
     bird.drawInMenu(window, tick)
     pygame.display.update()
 
-def drawGame(window, s, base, bird, tick, pipes):
+def drawGame(window, s, base, bird, tick, pipes, score):
     window.blit(s.background, (0, 0))
     pipes.draw(window)
     base.draw(window)
+    score.draw(window)
     bird.drawInGame(window, tick)
     pygame.display.update()
 
-def mainLoop(clock, window, s):
+def mainLoop(clock, window, sprites):
     run = True
     runGame = False
     tick = 0
     base = Base(sprites.base)
     bird = Bird(sprites.bird)
     pipes = Pipes(sprites.pipe)
+    score = Score(sprites.numbers)
 
     while run:
         clock.tick(FPS)
@@ -38,9 +41,9 @@ def mainLoop(clock, window, s):
                 runGame = True
 
         if runGame:
-            drawGame(window, s, base, bird, tick, pipes)
+            drawGame(window, sprites, base, bird, tick, pipes, score)
         else:
-            drawMenu(window, s, base, bird, tick)
+            drawMenu(window, sprites, base, bird, tick)
 
         if tick < FPS:
             tick += 1

@@ -32,6 +32,18 @@ class Sprites:
             'greenPipe': pygame.image.load('assets/sprites/pipe-green.png'),
             'redPipe': pygame.image.load('assets/sprites/pipe-red.png')
         }
+        self.numbers = [
+            pygame.image.load('assets/sprites/0.png'),
+            pygame.image.load('assets/sprites/1.png'),
+            pygame.image.load('assets/sprites/2.png'),
+            pygame.image.load('assets/sprites/3.png'),
+            pygame.image.load('assets/sprites/4.png'),
+            pygame.image.load('assets/sprites/5.png'),
+            pygame.image.load('assets/sprites/6.png'),
+            pygame.image.load('assets/sprites/7.png'),
+            pygame.image.load('assets/sprites/8.png'),
+            pygame.image.load('assets/sprites/9.png'),
+        ]
 
         self.background = self.setBackground()
         self.base = pygame.image.load('assets/sprites/base.png')
