@@ -32,7 +32,7 @@ class Sprites:
             'greenPipe': pygame.image.load('assets/sprites/pipe-green.png'),
             'redPipe': pygame.image.load('assets/sprites/pipe-red.png')
         }
-        
+
         self.background = self.setBackground()
         self.base = pygame.image.load('assets/sprites/base.png')
         self.message = pygame.image.load('assets/sprites/message.png')
@@ -45,7 +45,7 @@ class Sprites:
             return self.backgrounds['backgroundDay']
         else:
             return self.backgrounds['backgroundNight']
-    
+
     def setBird(self):
         r = randint(0, 2)
         if r == 0:

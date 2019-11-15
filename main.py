@@ -1,13 +1,10 @@
+from settings import *
 from sprites import Sprites
 from base import Base
 from bird import Bird
-from pipe import Pipe
-import pygame
+from pipes import Pipes
 
-WINDOWWIDTH = 288
-WINDOWHEIGHT = 512
-GAMENAME = 'Flappy Bird'
-FPS = 60
+import pygame
 
 def drawMenu(window, s, base, bird, tick):
     window.blit(s.background, (0, 0))
@@ -16,10 +13,10 @@ def drawMenu(window, s, base, bird, tick):
     bird.drawInMenu(window, tick)
     pygame.display.update()
 
-def drawGame(window, s, base, bird, tick, pipe):
+def drawGame(window, s, base, bird, tick, pipes):
     window.blit(s.background, (0, 0))
+    pipes.draw(window)
     base.draw(window)
-    pipe.draw(window)
     bird.drawInGame(window, tick)
     pygame.display.update()
 
@@ -29,7 +26,7 @@ def mainLoop(clock, window, s):
     tick = 0
     base = Base(sprites.base)
     bird = Bird(sprites.bird)
-    pipe = Pipe(sprites.pipe)
+    pipes = Pipes(sprites.pipe)
 
     while run:
         clock.tick(FPS)
@@ -41,7 +38,7 @@ def mainLoop(clock, window, s):
                 runGame = True
 
         if runGame:
-            drawGame(window, s, base, bird, tick, pipe)
+            drawGame(window, s, base, bird, tick, pipes)
         else:
             drawMenu(window, s, base, bird, tick)
 
@@ -52,7 +49,7 @@ def mainLoop(clock, window, s):
 
 if __name__ == '__main__':
     pygame.init()
-    
+
     clock = pygame.time.Clock()
     window = pygame.display.set_mode((WINDOWWIDTH, WINDOWHEIGHT))
     pygame.display.set_caption(GAMENAME)
