@@ -6,25 +6,35 @@ from pipes import Pipes
 from score import Score
 
 import pygame
+from enum import Enum
 
-def drawMenu(window, s, base, bird, tick):
-    window.blit(s.background, (0, 0))
-    window.blit(s.message, (52, 50))
+class Status(Enum):
+    inMenu = 1
+    inGame = 2
+    gameOver = 3
+
+def drawMenu(window, sprites, base, bird, tick):
+    window.blit(sprites.background, (0, 0))
+    window.blit(sprites.message, (52, 50))
     base.draw(window)
     bird.drawInMenu(window, tick)
     pygame.display.update()
 
-def drawGame(window, s, base, bird, tick, pipes, score):
-    window.blit(s.background, (0, 0))
+def drawGame(window, sprites, base, bird, tick, pipes, score):
+    window.blit(sprites.background, (0, 0))
     pipes.draw(window)
     base.draw(window)
     score.draw(window)
     bird.drawInGame(window, tick)
     pygame.display.update()
 
+def drawGameOver(window, sprites):
+    window.blit(sprites.gameOver, (50, 180))
+    pygame.display.update()
+
 def mainLoop(clock, window, sprites):
     run = True
-    runGame = False
+    status = Status.inMenu
     tick = 0
     base = Base(sprites.base)
     bird = Bird(sprites.bird)
@@ -37,13 +47,19 @@ def mainLoop(clock, window, sprites):
         for event in pygame.event.get():
             if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
                 run = False
-            if event.type == pygame.KEYDOWN and (event.key == pygame.K_SPACE or event.key == pygame.K_UP):
-                runGame = True
+            if status == Status.inMenu and event.type == pygame.KEYDOWN and (event.key == pygame.K_SPACE or event.key == pygame.K_UP):
+                status = Status.inGame
+            if status == Status.inGame and event.type == pygame.KEYDOWN and (event.key == pygame.K_a): #Game Over Mocked
+                status = Status.gameOver
+            if status == Status.gameOver and event.type == pygame.KEYDOWN and (event.key == pygame.K_SPACE or event.key == pygame.K_UP):
+                status = Status.inMenu
 
-        if runGame:
+        if status == Status.inMenu:
+            drawMenu(window, sprites, base, bird, tick)
+        elif status == Status.inGame:
             drawGame(window, sprites, base, bird, tick, pipes, score)
         else:
-            drawMenu(window, sprites, base, bird, tick)
+            drawGameOver(window, sprites)
 
         if tick < FPS:
             tick += 1
