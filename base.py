@@ -7,7 +7,7 @@ class Base:
         self.x = 0
         self.y = 400
         self.xShift = -48
-    
+
     def draw(self, window):
         window.blit(self.sprite, (self.x, self.y))
 

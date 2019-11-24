@@ -13,6 +13,8 @@ class Bird:
         self.yMaxMenu = 240
         self.yMinMenu = 230
         self.raising = 1
+        self.width = 34
+        self.height = 24
 
     def drawInMenu(self, window, tick):
         window.blit(self.sprites[self.flapCount], (self.x, self.y))
@@ -37,3 +39,4 @@ class Bird:
             self.flapCount += 1
         elif tick != 0 and tick % FLAPPERSECOND == 0:
             self.flapCount = 0
+        self.y += 2

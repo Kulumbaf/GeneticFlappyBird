@@ -4,14 +4,10 @@ from base import Base
 from bird import Bird
 from pipes import Pipes
 from score import Score
+from status import Status
+from hitBoxe import HitBoxe
 
 import pygame
-from enum import Enum
-
-class Status(Enum):
-    inMenu = 1
-    inGame = 2
-    gameOver = 3
 
 def drawMenu(window, sprites, base, bird, tick):
     window.blit(sprites.background, (0, 0))
@@ -40,6 +36,7 @@ def mainLoop(clock, window, sprites):
     bird = Bird(sprites.bird)
     pipes = Pipes(sprites.pipe)
     score = Score(sprites.numbers)
+    hitBoxe = HitBoxe()
 
     while run:
         clock.tick(FPS)
@@ -49,8 +46,6 @@ def mainLoop(clock, window, sprites):
                 run = False
             if status == Status.inMenu and event.type == pygame.KEYDOWN and (event.key == pygame.K_SPACE or event.key == pygame.K_UP):
                 status = Status.inGame
-            if status == Status.inGame and event.type == pygame.KEYDOWN and (event.key == pygame.K_a): #Game Over Mocked
-                status = Status.gameOver
             if status == Status.gameOver and event.type == pygame.KEYDOWN and (event.key == pygame.K_SPACE or event.key == pygame.K_UP):
                 status = Status.inMenu
 
@@ -60,6 +55,17 @@ def mainLoop(clock, window, sprites):
             drawGame(window, sprites, base, bird, tick, pipes, score)
         else:
             drawGameOver(window, sprites)
+
+        if status == Status.inGame:
+            status = hitBoxe.birdHitBase(bird, base)
+            hitBoxe.birdPassPipe(bird, pipes.pipes, score)
+            if status == Status.gameOver:
+                tick = 0
+                base = Base(sprites.base)
+                bird = Bird(sprites.bird)
+                pipes = Pipes(sprites.pipe)
+                score = Score(sprites.numbers)
+                hitBoxe = HitBoxe()
 
         if tick < FPS:
             tick += 1

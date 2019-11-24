@@ -19,6 +19,9 @@ class PairPipe:
         self.ySprite = 0
         self.yReversedSprite = 0
         self.getRandomYPosition()
+        self.width = 52
+        self.height = 320
+        self.passed = False
 
     def getRandomYPosition(self):
         r = randint(MINRANDOMPIPETOP, MAXRANDOMPIPETOP)
@@ -47,3 +50,4 @@ class Pipes:
             else:
                 pipe.x = WINDOWWIDTH * 2 - PIPEWIDTH
                 pipe.getRandomYPosition()
+                pipe.passed = False
