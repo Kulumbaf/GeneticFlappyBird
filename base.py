@@ -1,7 +1,8 @@
+from settings import VELOCITY
+
 import pygame
 
 XSHIFT = -48
-VELOCITY = 2
 
 class Base:
 

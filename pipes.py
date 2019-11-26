@@ -1,55 +1,53 @@
-from settings import *
+from settings import WINDOWWIDTH, VELOCITY
 
-import pygame
 from random import randint
+import pygame
 
-PIPEWIDTH = 52
-PIPEHEIGHT = 320
-FIRSTPIPESPACE = WINDOWWIDTH + (WINDOWWIDTH / 2)
+GAPBEFOREFIRSTPIPE = WINDOWWIDTH + (WINDOWWIDTH / 2)
+
 PIPEGAPSPACE = 100
 MINRANDOMPIPETOP = 90
 MAXRANDOMPIPETOP = 210
 
 class PairPipe:
 
-    def __init__(self, sprite, reversedSprite, x):
+    def __init__(self, sprite, x):
         self.sprite = sprite
-        self.reversedSprite = reversedSprite
+        self.image = sprite.image
+        self.reversedImage = pygame.transform.rotate(sprite.image, 180)
+
         self.x = x
-        self.ySprite = 0
-        self.yReversedSprite = 0
-        self.getRandomYPosition()
-        self.width = 52
-        self.height = 320
+        self.yUp = 0
+        self.yDown = 0
         self.passed = False
 
-    def getRandomYPosition(self):
+        self._getRandomYPosition()
+
+    def _getRandomYPosition(self):
         r = randint(MINRANDOMPIPETOP, MAXRANDOMPIPETOP)
-        self.yReversedSprite = -PIPEHEIGHT + r
-        self.ySprite = r + PIPEGAPSPACE
+        self.yDown = -self.sprite.height + r
+        self.yUp = r + PIPEGAPSPACE
 
 class Pipes:
 
     def __init__(self, sprite):
-        self.sprite = sprite
-        self.reversedSprite = pygame.transform.rotate(sprite, 180)
         self.pipes = [
-            PairPipe(self.sprite, self.reversedSprite, FIRSTPIPESPACE),
-            PairPipe(self.sprite, self.reversedSprite, FIRSTPIPESPACE + WINDOWWIDTH / 2),
-            PairPipe(self.sprite, self.reversedSprite, FIRSTPIPESPACE + WINDOWWIDTH),
-            PairPipe(self.sprite, self.reversedSprite, FIRSTPIPESPACE + WINDOWWIDTH + WINDOWWIDTH / 2)
+            PairPipe(sprite, GAPBEFOREFIRSTPIPE),
+            PairPipe(sprite, GAPBEFOREFIRSTPIPE + WINDOWWIDTH / 2),
+            PairPipe(sprite, GAPBEFOREFIRSTPIPE + WINDOWWIDTH),
+            PairPipe(sprite, GAPBEFOREFIRSTPIPE + WINDOWWIDTH + WINDOWWIDTH / 2)
         ]
 
     def drawInGame(self, window):
         for pipe in self.pipes:
-            window.blit(pipe.sprite, (pipe.x, pipe.ySprite))
-            window.blit(pipe.reversedSprite, (pipe.x, pipe.yReversedSprite))
+            window.blit(pipe.image, (pipe.x, pipe.yUp))
+            window.blit(pipe.reversedImage, (pipe.x, pipe.yDown))
 
-            if pipe.x > -PIPEWIDTH:
-                pipe.x -= 2
+            if pipe.x > -pipe.sprite.width:
+                pipe.x -= VELOCITY
             else:
-                pipe.x = WINDOWWIDTH * 2 - PIPEWIDTH
-                pipe.getRandomYPosition()
+                pipe.x = WINDOWWIDTH * 2 - pipe.sprite.width
+                pipe._getRandomYPosition()
                 pipe.passed = False
 
     def drawInGameOver(self, window):

@@ -10,19 +10,19 @@ from audio import Audio
 
 import pygame
 
-def drawMenu(window, sprites, base, bird, tick):
-    # window.blit(sprites.background, (0, 0))
-    # window.blit(sprites.message, (52, 50))
+def drawInMenu(window, background, message, base, bird, tick):
+    window.blit(background.image, (background.x, background.y))
+    window.blit(message.image, (message.x, message.y))
     base.drawInGame(window)
-    # bird.drawInMenu(window, tick)
+    bird.drawInMenu(window, tick)
     pygame.display.update()
 
-def drawGame(window, sprites, base, bird, tick, pipes, score):
-    window.blit(sprites.background, (0, 0))
+def drawInGame(window, background, base, bird, pipes, score, tick):
+    window.blit(background.image, (background.x, background.y))
     pipes.drawInGame(window)
     base.drawInGame(window)
-    score.draw(window)
-    bird.drawInGame(window, tick)
+    # score.draw(window)
+    # bird.drawInGame(window, tick)
     pygame.display.update()
 
 def drawGameOver(window, sprites, base, bird, tick, pipes, score):
@@ -38,10 +38,13 @@ def mainLoop(clock, window, sprites, audio):
     run = True
     status = Status.inMenu
     tick = 0
+
     base = Base(sprites.base)
     bird = Bird(sprites.bird)
-    # pipes = Pipes(sprites.pipe)
+    pipes = Pipes(sprites.pipe)
     # score = Score(sprites.numbers)
+    score = 0
+
     # hitBoxe = HitBoxe(audio.hitSound, audio.dieSound, audio.pointSound)
 
     while run:
@@ -50,8 +53,8 @@ def mainLoop(clock, window, sprites, audio):
         for event in pygame.event.get():
             if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
                 run = False
-        #     if status == Status.inMenu and event.type == pygame.KEYUP and (event.key == pygame.K_SPACE or event.key == pygame.K_UP):
-        #         status = Status.inGame
+            if status == Status.inMenu and event.type == pygame.KEYUP and (event.key == pygame.K_SPACE or event.key == pygame.K_UP):
+                status = Status.inGame
         #     if status == Status.inGame and event.type == pygame.KEYDOWN and (event.key == pygame.K_SPACE or event.key == pygame.K_UP):
         #         audio.wingSound.play()
         #         bird.time = 0
@@ -67,9 +70,9 @@ def mainLoop(clock, window, sprites, audio):
         #         hitBoxe = HitBoxe(audio.hitSound, audio.dieSound, audio.pointSound)
 
         if status == Status.inMenu:
-            drawMenu(window, sprites, base, bird, tick)
-        # elif status == Status.inGame:
-        #     drawGame(window, sprites, base, bird, tick, pipes, score)
+            drawInMenu(window, sprites.background, sprites.message, base, bird, tick)
+        elif status == Status.inGame:
+            drawInGame(window, sprites.background, base, bird, pipes, score, tick)
         # else:
         #     drawGameOver(window, sprites, base, bird, tick, pipes, score)
 
