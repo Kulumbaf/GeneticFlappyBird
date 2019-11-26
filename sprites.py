@@ -1,54 +1,68 @@
 import pygame
 from random import randint
 
+class Sprite:
+
+    def __init__(self, sprite, x, y, width, height):
+        self.sprite = sprite
+        self.x = x
+        self.y = y
+        self.width = width
+        self.height = height
+
 class Sprites:
 
     def __init__(self):
         self.backgrounds = {
-            'backgroundDay': pygame.image.load('assets/sprites/background-day.png'),
-            'backgroundNight': pygame.image.load('assets/sprites/background-night.png')
+            'backgroundDay': Sprite(pygame.image.load('assets/sprites/background-day.png'), 0, 0, 288, 512),
+            'backgroundNight': Sprite(pygame.image.load('assets/sprites/background-night.png'), 0, 0, 288, 512)
         }
         self.birds = {
             'yellowBird': [
-                pygame.image.load('assets/sprites/yellowbird-midflap.png'),
-                pygame.image.load('assets/sprites/yellowbird-downflap.png'),
-                pygame.image.load('assets/sprites/yellowbird-midflap.png'),
-                pygame.image.load('assets/sprites/yellowbird-upflap.png')
+                Sprite(pygame.image.load('assets/sprites/yellowbird-midflap.png'), 65, 235, 34, 24),
+                Sprite(pygame.image.load('assets/sprites/yellowbird-downflap.png'), 65, 235, 34, 24),
+                Sprite(pygame.image.load('assets/sprites/yellowbird-midflap.png'), 65, 235, 34, 24),
+                Sprite(pygame.image.load('assets/sprites/yellowbird-upflap.png'), 65, 235, 34, 24)
             ],
             'redBird': [
-                pygame.image.load('assets/sprites/redbird-midflap.png'),
-                pygame.image.load('assets/sprites/redbird-downflap.png'),
-                pygame.image.load('assets/sprites/redbird-midflap.png'),
-                pygame.image.load('assets/sprites/redbird-upflap.png')
+                Sprite(pygame.image.load('assets/sprites/redbird-midflap.png'), 65, 235, 34, 24),
+                Sprite(pygame.image.load('assets/sprites/redbird-downflap.png'), 65, 235, 34, 24),
+                Sprite(pygame.image.load('assets/sprites/redbird-midflap.png'), 65, 235, 34, 24),
+                Sprite(pygame.image.load('assets/sprites/redbird-upflap.png'), 65, 235, 34, 24)
             ],
             'blueBird': [
-                pygame.image.load('assets/sprites/bluebird-midflap.png'),
-                pygame.image.load('assets/sprites/bluebird-downflap.png'),
-                pygame.image.load('assets/sprites/bluebird-midflap.png'),
-                pygame.image.load('assets/sprites/bluebird-upflap.png')
+                Sprite(pygame.image.load('assets/sprites/bluebird-midflap.png'), 65, 235, 34, 24),
+                Sprite(pygame.image.load('assets/sprites/bluebird-downflap.png'), 65, 235, 34, 24),
+                Sprite(pygame.image.load('assets/sprites/bluebird-midflap.png'), 65, 235, 34, 24),
+                Sprite(pygame.image.load('assets/sprites/bluebird-upflap.png'), 65, 235, 34, 24)
             ]
         }
         self.pipes = {
-            'greenPipe': pygame.image.load('assets/sprites/pipe-green.png'),
-            'redPipe': pygame.image.load('assets/sprites/pipe-red.png')
+            'greenPipe': Sprite(pygame.image.load('assets/sprites/pipe-green.png'), 0, 0, 52, 320),
+            'redPipe': Sprite(pygame.image.load('assets/sprites/pipe-red.png'), 0, 0, 52, 320)
         }
         self.numbers = [
-            pygame.image.load('assets/sprites/0.png'),
-            pygame.image.load('assets/sprites/1.png'),
-            pygame.image.load('assets/sprites/2.png'),
-            pygame.image.load('assets/sprites/3.png'),
-            pygame.image.load('assets/sprites/4.png'),
-            pygame.image.load('assets/sprites/5.png'),
-            pygame.image.load('assets/sprites/6.png'),
-            pygame.image.load('assets/sprites/7.png'),
-            pygame.image.load('assets/sprites/8.png'),
-            pygame.image.load('assets/sprites/9.png'),
+            Sprite(pygame.image.load('assets/sprites/0.png'), 0, 51, 24, 36),
+            Sprite(pygame.image.load('assets/sprites/1.png'), 0, 51, 16, 36),
+            Sprite(pygame.image.load('assets/sprites/2.png'), 0, 51, 24, 36),
+            Sprite(pygame.image.load('assets/sprites/3.png'), 0, 51, 24, 36),
+            Sprite(pygame.image.load('assets/sprites/4.png'), 0, 51, 24, 36),
+            Sprite(pygame.image.load('assets/sprites/5.png'), 0, 51, 24, 36),
+            Sprite(pygame.image.load('assets/sprites/6.png'), 0, 51, 24, 36),
+            Sprite(pygame.image.load('assets/sprites/7.png'), 0, 51, 24, 36),
+            Sprite(pygame.image.load('assets/sprites/8.png'), 0, 51, 24, 36),
+            Sprite(pygame.image.load('assets/sprites/9.png'), 0, 51, 24, 36)
         ]
+        self.base = Sprite(pygame.image.load('assets/sprites/base.png'), 0, 400, 336, 112)
+        self.message = Sprite(pygame.image.load('assets/sprites/message.png'), 52, 50, 184, 267)
+        self.gameOver = Sprite(pygame.image.load('assets/sprites/gameover.png'), 50, 180, 192, 42)
 
         self.background = self.setBackground()
-        self.base = pygame.image.load('assets/sprites/base.png')
-        self.message = pygame.image.load('assets/sprites/message.png')
-        self.gameOver = pygame.image.load('assets/sprites/gameover.png')
+        self.bird = self.setBird()
+        self.pipe = self.setPipe()
+
+    def setRandomSprites(self):
+        self.background = self.setBackground()
         self.bird = self.setBird()
         self.pipe = self.setPipe()
 
