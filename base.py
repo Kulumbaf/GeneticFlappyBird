@@ -8,10 +8,13 @@ class Base:
         self.y = 400
         self.xShift = -48
 
-    def draw(self, window):
+    def drawInGame(self, window):
         window.blit(self.sprite, (self.x, self.y))
 
         if self.x > self.xShift:
             self.x -= 2
         else:
             self.x = 0
+
+    def drawInGameOver(self, window):
+        window.blit(self.sprite, (self.x, self.y))

@@ -6,29 +6,35 @@ from pipes import Pipes
 from score import Score
 from status import Status
 from hitBoxe import HitBoxe
+from audio import Audio
 
 import pygame
 
 def drawMenu(window, sprites, base, bird, tick):
     window.blit(sprites.background, (0, 0))
     window.blit(sprites.message, (52, 50))
-    base.draw(window)
+    base.drawInGame(window)
     bird.drawInMenu(window, tick)
     pygame.display.update()
 
 def drawGame(window, sprites, base, bird, tick, pipes, score):
     window.blit(sprites.background, (0, 0))
-    pipes.draw(window)
-    base.draw(window)
+    pipes.drawInGame(window)
+    base.drawInGame(window)
     score.draw(window)
     bird.drawInGame(window, tick)
     pygame.display.update()
 
-def drawGameOver(window, sprites):
+def drawGameOver(window, sprites, base, bird, tick, pipes, score):
+    window.blit(sprites.background, (0, 0))
+    pipes.drawInGameOver(window)
+    base.drawInGameOver(window)
+    score.draw(window)
     window.blit(sprites.gameOver, (50, 180))
+    bird.drawInGame(window, tick)
     pygame.display.update()
 
-def mainLoop(clock, window, sprites):
+def mainLoop(clock, window, sprites, audio):
     run = True
     status = Status.inMenu
     tick = 0
@@ -36,7 +42,7 @@ def mainLoop(clock, window, sprites):
     bird = Bird(sprites.bird)
     pipes = Pipes(sprites.pipe)
     score = Score(sprites.numbers)
-    hitBoxe = HitBoxe()
+    hitBoxe = HitBoxe(audio.hitSound, audio.dieSound, audio.pointSound)
 
     while run:
         clock.tick(FPS)
@@ -44,28 +50,35 @@ def mainLoop(clock, window, sprites):
         for event in pygame.event.get():
             if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
                 run = False
-            if status == Status.inMenu and event.type == pygame.KEYDOWN and (event.key == pygame.K_SPACE or event.key == pygame.K_UP):
+            if status == Status.inMenu and event.type == pygame.KEYUP and (event.key == pygame.K_SPACE or event.key == pygame.K_UP):
                 status = Status.inGame
-            if status == Status.gameOver and event.type == pygame.KEYDOWN and (event.key == pygame.K_SPACE or event.key == pygame.K_UP):
+            if status == Status.inGame and event.type == pygame.KEYDOWN and (event.key == pygame.K_SPACE or event.key == pygame.K_UP):
+                audio.wingSound.play()
+                bird.time = 0
+                bird.flapped = True
+                bird.space = True
+            if status == Status.gameOver and event.type == pygame.KEYUP and (event.key == pygame.K_SPACE or event.key == pygame.K_UP):
                 status = Status.inMenu
+                tick = 0
+                base = Base(sprites.base)
+                bird = Bird(sprites.bird)
+                pipes = Pipes(sprites.pipe)
+                score = Score(sprites.numbers)
+                hitBoxe = HitBoxe(audio.hitSound, audio.dieSound, audio.pointSound)
 
         if status == Status.inMenu:
             drawMenu(window, sprites, base, bird, tick)
         elif status == Status.inGame:
             drawGame(window, sprites, base, bird, tick, pipes, score)
         else:
-            drawGameOver(window, sprites)
+            drawGameOver(window, sprites, base, bird, tick, pipes, score)
 
         if status == Status.inGame:
-            status = hitBoxe.birdHitBase(bird, base)
+            status1 = hitBoxe.birdHitBase(bird, base)
+            status2 = hitBoxe.birdHitPipes(bird, pipes)
             hitBoxe.birdPassPipe(bird, pipes.pipes, score)
-            if status == Status.gameOver:
-                tick = 0
-                base = Base(sprites.base)
-                bird = Bird(sprites.bird)
-                pipes = Pipes(sprites.pipe)
-                score = Score(sprites.numbers)
-                hitBoxe = HitBoxe()
+            if status1 == Status.gameOver or status2 == Status.gameOver:
+                status = Status.gameOver
 
         if tick < FPS:
             tick += 1
@@ -79,7 +92,8 @@ if __name__ == '__main__':
     window = pygame.display.set_mode((WINDOWWIDTH, WINDOWHEIGHT))
     pygame.display.set_caption(GAMENAME)
     sprites = Sprites()
+    audio = Audio()
 
-    mainLoop(clock, window, sprites)
+    mainLoop(clock, window, sprites, audio)
 
     pygame.quit()

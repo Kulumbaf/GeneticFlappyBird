@@ -40,7 +40,7 @@ class Pipes:
             PairPipe(self.sprite, self.reversedSprite, FIRSTPIPESPACE + WINDOWWIDTH + WINDOWWIDTH / 2)
         ]
 
-    def draw(self, window):
+    def drawInGame(self, window):
         for pipe in self.pipes:
             window.blit(pipe.sprite, (pipe.x, pipe.ySprite))
             window.blit(pipe.reversedSprite, (pipe.x, pipe.yReversedSprite))
@@ -51,3 +51,8 @@ class Pipes:
                 pipe.x = WINDOWWIDTH * 2 - PIPEWIDTH
                 pipe.getRandomYPosition()
                 pipe.passed = False
+
+    def drawInGameOver(self, window):
+        for pipe in self.pipes:
+            window.blit(pipe.sprite, (pipe.x, pipe.ySprite))
+            window.blit(pipe.reversedSprite, (pipe.x, pipe.yReversedSprite))
