@@ -1,4 +1,4 @@
-from settings import VELOCITY
+from settings import XVELOCITY
 
 import pygame
 
@@ -14,7 +14,7 @@ class Base:
         window.blit(self.sprite.image, (self.sprite.x, self.sprite.y))
 
         if self.sprite.x > self.xShift:
-            self.sprite.x -= VELOCITY
+            self.sprite.x -= XVELOCITY
         else:
             self.sprite.x = 0
 

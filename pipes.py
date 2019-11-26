@@ -1,4 +1,4 @@
-from settings import WINDOWWIDTH, VELOCITY
+from settings import WINDOWWIDTH, XVELOCITY
 
 from random import randint
 import pygame
@@ -44,7 +44,7 @@ class Pipes:
             window.blit(pipe.reversedImage, (pipe.x, pipe.yDown))
 
             if pipe.x > -pipe.sprite.width:
-                pipe.x -= VELOCITY
+                pipe.x -= XVELOCITY
             else:
                 pipe.x = WINDOWWIDTH * 2 - pipe.sprite.width
                 pipe._getRandomYPosition()
