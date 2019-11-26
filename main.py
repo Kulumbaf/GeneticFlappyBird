@@ -21,11 +21,11 @@ def drawInGame(window, background, base, bird, pipes, score, tick):
     window.blit(background.image, (background.x, background.y))
     pipes.drawInGame(window)
     base.drawInGame(window)
-    # score.draw(window)
+    score.draw(window)
     # bird.drawInGame(window, tick)
     pygame.display.update()
 
-def drawGameOver(window, sprites, base, bird, tick, pipes, score):
+def drawInGameOver(window, sprites, base, bird, tick, pipes, score):
     window.blit(sprites.background, (0, 0))
     pipes.drawInGameOver(window)
     base.drawInGameOver(window)
@@ -42,8 +42,7 @@ def mainLoop(clock, window, sprites, audio):
     base = Base(sprites.base)
     bird = Bird(sprites.bird)
     pipes = Pipes(sprites.pipe)
-    # score = Score(sprites.numbers)
-    score = 0
+    score = Score(sprites.numbers)
 
     # hitBoxe = HitBoxe(audio.hitSound, audio.dieSound, audio.pointSound)
 
