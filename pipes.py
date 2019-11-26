@@ -52,5 +52,5 @@ class Pipes:
 
     def drawInGameOver(self, window):
         for pipe in self.pipes:
-            window.blit(pipe.sprite, (pipe.x, pipe.ySprite))
-            window.blit(pipe.reversedSprite, (pipe.x, pipe.yReversedSprite))
+            window.blit(pipe.image, (pipe.x, pipe.yUp))
+            window.blit(pipe.reversedImage, (pipe.x, pipe.yDown))

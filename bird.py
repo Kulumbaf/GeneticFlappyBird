@@ -19,8 +19,9 @@ ROTATIONVELOCITY = 3
 
 class Bird:
 
-    def __init__(self, sprites):
+    def __init__(self, sprites, wingSound):
         self.sprites = sprites
+        self.wingSound = wingSound
         self.x = self.sprites[0].x
         self.y = self.sprites[0].y
 
@@ -32,6 +33,7 @@ class Bird:
         self.jumping = False
         self.vY = JUMPVELOCITY
         self.rotate = 0
+        self.isDead = False
 
     def _flap(self, tick):
         if tick != 0 and tick % FLAPPERSECOND == 0 and self.flapCount < 3:
@@ -47,6 +49,15 @@ class Bird:
         elif self.y == YMININMENU:
             self.yRaise = 1
 
+    def jump(self):
+        self.wingSound.play()
+        self.jumpTime = 0
+        self.jumped = True
+        self.jumping = True
+
+    def die(self):
+        self.isDead = True
+
     def drawInMenu(self, window, tick):
         window.blit(self.sprites[self.flapCount].image, (self.x, self.y))
         self._flap(tick)
@@ -55,7 +66,8 @@ class Bird:
     def drawInGame(self, window, baseY, tick):
         window.blit(pygame.transform.rotate(self.sprites[self.flapCount].image, self.rotate), (self.x, self.y))
 
-        self._flap(tick)
+        if self.isDead == False:
+            self._flap(tick)
 
         if self.jumping:
             self.jumpTime += 1

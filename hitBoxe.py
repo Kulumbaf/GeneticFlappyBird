@@ -10,26 +10,26 @@ class HitBoxe:
         self.pointSound = pointSound
 
     def birdHitBase(self, bird, base):
-        if bird.y + bird.height >= base.y:
+        if bird.y + bird.sprites[0].height >= base.sprite.y:
             self.hitSound.play()
             self.dieSound.play()
-            return Status.gameOver
-        return Status.inGame
+            return True
+        return False
 
     def birdPassPipe(self, bird, pipes, score):
-        for pipe in pipes:
-            if pipe.passed == False and bird.x > pipe.x + pipe.width / 2:
+        for pairPipe in pipes:
+            if pairPipe.passed == False and bird.x > pairPipe.x + pairPipe.sprite.width / 2:
                 self.pointSound.play()
                 score.score += 1
-                pipe.passed = True
+                pairPipe.passed = True
 
     def birdHitPipes(self, bird, pipes):
-        birdHitBoxe = pygame.Rect(bird.x, bird.y, bird.width, bird.height)
+        birdHitBoxe = pygame.Rect(bird.x, bird.y, bird.sprites[0].width, bird.sprites[0].height)
         for pairPipe in pipes.pipes:
-            upPipeHitBoxe = pygame.Rect(pairPipe.x, pairPipe.yReversedSprite, pairPipe.width, pairPipe.height)
-            bottomPipeHitBoxe = pygame.Rect(pairPipe.x, pairPipe.ySprite, pairPipe.width, pairPipe.height)
+            upPipeHitBoxe = pygame.Rect(pairPipe.x, pairPipe.yDown, pairPipe.sprite.width, pairPipe.sprite.height)
+            bottomPipeHitBoxe = pygame.Rect(pairPipe.x, pairPipe.yUp, pairPipe.sprite.width, pairPipe.sprite.height)
             if birdHitBoxe.colliderect(upPipeHitBoxe) or birdHitBoxe.colliderect(bottomPipeHitBoxe):
                 self.hitSound.play()
                 self.dieSound.play()
-                return Status.gameOver
-        return Status.inGame
+                return True
+        return False
