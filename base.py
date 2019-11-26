@@ -1,20 +1,21 @@
 import pygame
 
+XSHIFT = -48
+VELOCITY = 2
+
 class Base:
 
     def __init__(self, sprite):
         self.sprite = sprite
-        self.x = 0
-        self.y = 400
-        self.xShift = -48
+        self.xShift = XSHIFT
 
     def drawInGame(self, window):
-        window.blit(self.sprite, (self.x, self.y))
+        window.blit(self.sprite.image, (self.sprite.x, self.sprite.y))
 
-        if self.x > self.xShift:
-            self.x -= 2
+        if self.sprite.x > self.xShift:
+            self.sprite.x -= VELOCITY
         else:
-            self.x = 0
+            self.sprite.x = 0
 
     def drawInGameOver(self, window):
-        window.blit(self.sprite, (self.x, self.y))
+        window.blit(self.sprite.image, (self.sprite.x, self.sprite.y))

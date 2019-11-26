@@ -11,10 +11,10 @@ from audio import Audio
 import pygame
 
 def drawMenu(window, sprites, base, bird, tick):
-    window.blit(sprites.background, (0, 0))
-    window.blit(sprites.message, (52, 50))
+    # window.blit(sprites.background, (0, 0))
+    # window.blit(sprites.message, (52, 50))
     base.drawInGame(window)
-    bird.drawInMenu(window, tick)
+    # bird.drawInMenu(window, tick)
     pygame.display.update()
 
 def drawGame(window, sprites, base, bird, tick, pipes, score):
@@ -40,9 +40,9 @@ def mainLoop(clock, window, sprites, audio):
     tick = 0
     base = Base(sprites.base)
     bird = Bird(sprites.bird)
-    pipes = Pipes(sprites.pipe)
-    score = Score(sprites.numbers)
-    hitBoxe = HitBoxe(audio.hitSound, audio.dieSound, audio.pointSound)
+    # pipes = Pipes(sprites.pipe)
+    # score = Score(sprites.numbers)
+    # hitBoxe = HitBoxe(audio.hitSound, audio.dieSound, audio.pointSound)
 
     while run:
         clock.tick(FPS)
@@ -50,35 +50,35 @@ def mainLoop(clock, window, sprites, audio):
         for event in pygame.event.get():
             if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
                 run = False
-            if status == Status.inMenu and event.type == pygame.KEYUP and (event.key == pygame.K_SPACE or event.key == pygame.K_UP):
-                status = Status.inGame
-            if status == Status.inGame and event.type == pygame.KEYDOWN and (event.key == pygame.K_SPACE or event.key == pygame.K_UP):
-                audio.wingSound.play()
-                bird.time = 0
-                bird.flapped = True
-                bird.space = True
-            if status == Status.gameOver and event.type == pygame.KEYUP and (event.key == pygame.K_SPACE or event.key == pygame.K_UP):
-                status = Status.inMenu
-                tick = 0
-                base = Base(sprites.base)
-                bird = Bird(sprites.bird)
-                pipes = Pipes(sprites.pipe)
-                score = Score(sprites.numbers)
-                hitBoxe = HitBoxe(audio.hitSound, audio.dieSound, audio.pointSound)
+        #     if status == Status.inMenu and event.type == pygame.KEYUP and (event.key == pygame.K_SPACE or event.key == pygame.K_UP):
+        #         status = Status.inGame
+        #     if status == Status.inGame and event.type == pygame.KEYDOWN and (event.key == pygame.K_SPACE or event.key == pygame.K_UP):
+        #         audio.wingSound.play()
+        #         bird.time = 0
+        #         bird.flapped = True
+        #         bird.space = True
+        #     if status == Status.gameOver and event.type == pygame.KEYUP and (event.key == pygame.K_SPACE or event.key == pygame.K_UP):
+        #         status = Status.inMenu
+        #         tick = 0
+        #         base = Base(sprites.base)
+        #         bird = Bird(sprites.bird)
+        #         pipes = Pipes(sprites.pipe)
+        #         score = Score(sprites.numbers)
+        #         hitBoxe = HitBoxe(audio.hitSound, audio.dieSound, audio.pointSound)
 
         if status == Status.inMenu:
             drawMenu(window, sprites, base, bird, tick)
-        elif status == Status.inGame:
-            drawGame(window, sprites, base, bird, tick, pipes, score)
-        else:
-            drawGameOver(window, sprites, base, bird, tick, pipes, score)
+        # elif status == Status.inGame:
+        #     drawGame(window, sprites, base, bird, tick, pipes, score)
+        # else:
+        #     drawGameOver(window, sprites, base, bird, tick, pipes, score)
 
-        if status == Status.inGame:
-            status1 = hitBoxe.birdHitBase(bird, base)
-            status2 = hitBoxe.birdHitPipes(bird, pipes)
-            hitBoxe.birdPassPipe(bird, pipes.pipes, score)
-            if status1 == Status.gameOver or status2 == Status.gameOver:
-                status = Status.gameOver
+        # if status == Status.inGame:
+        #     status1 = hitBoxe.birdHitBase(bird, base)
+        #     status2 = hitBoxe.birdHitPipes(bird, pipes)
+        #     hitBoxe.birdPassPipe(bird, pipes.pipes, score)
+        #     if status1 == Status.gameOver or status2 == Status.gameOver:
+        #         status = Status.gameOver
 
         if tick < FPS:
             tick += 1

@@ -4,7 +4,7 @@ from random import randint
 class Sprite:
 
     def __init__(self, sprite, x, y, width, height):
-        self.sprite = sprite
+        self.image = sprite
         self.x = x
         self.y = y
         self.width = width
