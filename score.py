@@ -9,8 +9,8 @@ class Score:
         self.score = 0
 
     def incrementScore(self):
-        if score < 9999:
-            score += 1
+        if self.score < 9999:
+            self.score += 1
 
     def draw(self, window):
         digits = [int(digit) for digit in list(str(self.score))]

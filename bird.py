@@ -78,7 +78,8 @@ class Bird:
                 if self.rotate > MAXROTATION:
                     self.rotate -= ROTATIONVELOCITY
             else:
-                self.y += -self.vY
+                if self.y > -self.sprites[0].height:
+                    self.y += -self.vY
                 if self.jumpTime % DECELERATIONPERSECOND == 0:
                     self.vY -= 1
 

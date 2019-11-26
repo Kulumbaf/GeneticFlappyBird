@@ -20,7 +20,7 @@ class HitBoxe:
         for pairPipe in pipes:
             if pairPipe.passed == False and bird.x > pairPipe.x + pairPipe.sprite.width / 2:
                 self.pointSound.play()
-                score.score += 1
+                score.incrementScore()
                 pairPipe.passed = True
 
     def birdHitPipes(self, bird, pipes):
