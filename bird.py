@@ -8,7 +8,14 @@ YMININMENU = 230
 FLAPPERSECOND = 5
 RAISEPERSECOND = 2
 
-GRAVITATIONALACCELERATION = 9.80665  #((1 / 2) * GRAVITATIONALACCELERATION * pow(self.time / FPS, 2) + self.y) * 1.02
+JUMPVELOCITY = 4
+FALLVELOCITY = 3
+DECELERATIONPERSECOND = 10
+JUMPTIMEOUT = 15
+
+BASICROTATION = 20
+MAXROTATION = -90
+ROTATIONVELOCITY = 3
 
 class Bird:
 
@@ -20,10 +27,10 @@ class Bird:
         self.flapCount = 0
         self.yRaise = 1
 
-        self.time = 0
-        self.flapped = False
-        self.space = False
-        self.vy = 4
+        self.jumpTime = 0
+        self.jumped = False
+        self.jumping = False
+        self.vY = JUMPVELOCITY
         self.rotate = 0
 
     def _flap(self, tick):
@@ -45,27 +52,29 @@ class Bird:
         self._flap(tick)
         self._raise(tick)
 
-    def drawInGame(self, window, tick):
-        window.blit(pygame.transform.rotate(self.sprites[self.flapCount], self.rotate), (self.x, self.y))
+    def drawInGame(self, window, baseY, tick):
+        window.blit(pygame.transform.rotate(self.sprites[self.flapCount].image, self.rotate), (self.x, self.y))
 
-        self._flap()
+        self._flap(tick)
 
-        self.time += 1
-        if self.y + self.height < 400:
-            if self.flapped == False:
-                self.y = self.y + 3
-                if self.rotate > -90:
-                    self.rotate -= 3
+        if self.jumping:
+            self.jumpTime += 1
+
+        if self.y + self.sprites[0].height < baseY:
+            if self.jumping == False:
+                self.y = self.y + FALLVELOCITY
+                if self.rotate > MAXROTATION:
+                    self.rotate -= ROTATIONVELOCITY
             else:
-                self.y += -self.vy
-                if self.time % 10 == 0:
-                    self.vy -= 1
+                self.y += -self.vY
+                if self.jumpTime % DECELERATIONPERSECOND == 0:
+                    self.vY -= 1
 
-            if self.flapped == True and self.time >= 15:
-                self.time = 0
-                self.flapped = False
-                self.vy = 4
+            if self.jumping == True and self.jumpTime >= JUMPTIMEOUT:
+                self.jumpTime = 0
+                self.jumping = False
+                self.vY = JUMPVELOCITY
 
-        if self.space:
-            self.space = False
-            self.rotate = 30
+        if self.jumped:
+            self.jumped = False
+            self.rotate = BASICROTATION

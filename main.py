@@ -22,7 +22,7 @@ def drawInGame(window, background, base, bird, pipes, score, tick):
     pipes.drawInGame(window)
     base.drawInGame(window)
     score.draw(window)
-    # bird.drawInGame(window, tick)
+    bird.drawInGame(window, base.sprite.y, tick)
     pygame.display.update()
 
 def drawInGameOver(window, sprites, base, bird, tick, pipes, score):
@@ -54,11 +54,11 @@ def mainLoop(clock, window, sprites, audio):
                 run = False
             if status == Status.inMenu and event.type == pygame.KEYUP and (event.key == pygame.K_SPACE or event.key == pygame.K_UP):
                 status = Status.inGame
-        #     if status == Status.inGame and event.type == pygame.KEYDOWN and (event.key == pygame.K_SPACE or event.key == pygame.K_UP):
-        #         audio.wingSound.play()
-        #         bird.time = 0
-        #         bird.flapped = True
-        #         bird.space = True
+            if status == Status.inGame and event.type == pygame.KEYDOWN and (event.key == pygame.K_SPACE or event.key == pygame.K_UP):
+                audio.wingSound.play()
+                bird.jumpTime = 0
+                bird.jumped = True
+                bird.jumping = True
         #     if status == Status.gameOver and event.type == pygame.KEYUP and (event.key == pygame.K_SPACE or event.key == pygame.K_UP):
         #         status = Status.inMenu
         #         tick = 0
@@ -68,19 +68,19 @@ def mainLoop(clock, window, sprites, audio):
         #         score = Score(sprites.numbers)
         #         hitBoxe = HitBoxe(audio.hitSound, audio.dieSound, audio.pointSound)
 
-        if status == Status.inMenu:
-            drawInMenu(window, sprites.background, sprites.message, base, bird, tick)
-        elif status == Status.inGame:
-            drawInGame(window, sprites.background, base, bird, pipes, score, tick)
-        # else:
-        #     drawGameOver(window, sprites, base, bird, tick, pipes, score)
-
         # if status == Status.inGame:
         #     status1 = hitBoxe.birdHitBase(bird, base)
         #     status2 = hitBoxe.birdHitPipes(bird, pipes)
         #     hitBoxe.birdPassPipe(bird, pipes.pipes, score)
         #     if status1 == Status.gameOver or status2 == Status.gameOver:
         #         status = Status.gameOver
+
+        if status == Status.inMenu:
+            drawInMenu(window, sprites.background, sprites.message, base, bird, tick)
+        elif status == Status.inGame:
+            drawInGame(window, sprites.background, base, bird, pipes, score, tick)
+        # else:
+        #     drawGameOver(window, sprites, base, bird, tick, pipes, score)
 
         if tick < FPS:
             tick += 1
