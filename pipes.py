@@ -30,13 +30,15 @@ class PairPipe:
 
 class Pipes:
 
-    def __init__(self, sprite):
+    def __init__(self, sprite, hitBoxe):
         self.pipes = [
             PairPipe(sprite, GAPBEFOREFIRSTPIPE),
             PairPipe(sprite, GAPBEFOREFIRSTPIPE + WINDOWWIDTH / 2),
             PairPipe(sprite, GAPBEFOREFIRSTPIPE + WINDOWWIDTH),
             PairPipe(sprite, GAPBEFOREFIRSTPIPE + WINDOWWIDTH + WINDOWWIDTH / 2)
         ]
+        self.upHitMask = hitBoxe.getHitMask(pygame.transform.rotate(sprite.image, 180), sprite.width, sprite.height)
+        self.bottomHitMask = hitBoxe.getHitMask(sprite.image, sprite.width, sprite.height)
 
     def drawInGame(self, window):
         for pipe in self.pipes:

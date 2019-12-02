@@ -18,12 +18,13 @@ def mainLoop(clock, window, sprites, audio):
 
     drawer = Drawer(window)
 
+    hitBoxe = HitBoxe(audio.hitSound, audio.dieSound, audio.pointSound)
+
     base = Base(sprites.base)
-    bird = Bird(sprites.bird, audio.wingSound)
-    pipes = Pipes(sprites.pipe)
+    bird = Bird(sprites.bird, audio.wingSound, hitBoxe)
+    pipes = Pipes(sprites.pipe, hitBoxe)
     score = Score(sprites.numbers)
 
-    hitBoxe = HitBoxe(audio.hitSound, audio.dieSound, audio.pointSound)
 
     while run:
         clock.tick(FPS)
@@ -39,8 +40,8 @@ def mainLoop(clock, window, sprites, audio):
                 status = Status.inMenu
                 tick = 0
                 base = Base(sprites.base)
-                bird = Bird(sprites.bird, audio.wingSound)
-                pipes = Pipes(sprites.pipe)
+                bird = Bird(sprites.bird, audio.wingSound, hitBoxe)
+                pipes = Pipes(sprites.pipe, hitBoxe)
                 score = Score(sprites.numbers)
 
         if status == Status.inGame:

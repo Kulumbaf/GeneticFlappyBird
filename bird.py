@@ -19,11 +19,12 @@ ROTATIONVELOCITY = 3
 
 class Bird:
 
-    def __init__(self, sprites, wingSound):
+    def __init__(self, sprites, wingSound, hitBoxe):
         self.sprites = sprites
         self.wingSound = wingSound
         self.x = self.sprites[0].x
         self.y = self.sprites[0].y
+        self.hitMask = hitBoxe.getHitMask(self.sprites[0].image, self.sprites[0].width, self.sprites[0].height)
 
         self.flapCount = 0
         self.yRaise = 1
