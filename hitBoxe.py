@@ -9,15 +9,6 @@ class HitBoxe:
         self.dieSound = dieSound
         self.pointSound = pointSound
 
-    def getHitMask(self, image, width, height):
-        mask = []
-        for x in range(width):
-            mask.append([])
-            for y in range(height):
-                isTransparent = bool(image.get_at((x,y))[3])
-                mask[x].append(isTransparent)
-        return mask
-
     def _isPixelCollision(self, hitBoxe1, hitBoxe2, hitMask1, hitMask2):
         hitBoxe = hitBoxe1.clip(hitBoxe2)
 
@@ -32,6 +23,15 @@ class HitBoxe:
                 if hitMask1[x1 + x][y1 + y] and hitMask2[x2 + x][y2 + y]:
                     return True
         return False
+
+    def getHitMask(self, image, width, height):
+        mask = []
+        for x in range(width):
+            mask.append([])
+            for y in range(height):
+                isTransparent = bool(image.get_at((x,y))[3])
+                mask[x].append(isTransparent)
+        return mask
 
     def birdHitBase(self, bird, base):
         if bird.y + bird.sprites[0].height >= base.sprite.y:

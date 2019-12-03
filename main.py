@@ -25,7 +25,6 @@ def mainLoop(clock, window, sprites, audio):
     pipes = Pipes(sprites.pipe, hitBoxe)
     score = Score(sprites.numbers)
 
-
     while run:
         clock.tick(FPS)
 
